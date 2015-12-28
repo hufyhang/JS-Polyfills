@@ -154,5 +154,24 @@
     };
   }
 
+  // Array.prototype.filter(callback[, thisArg])
+  if (typeof Array.prototype.filter !== 'function') {
+    Array.prototype.filter = function filter(callback, thisArg) {
+      if (this === null || this === undefined) {
+        throw TypeError('this is null or undefined');
+      }
+      if (typeof callback !== 'function') {
+        throw TypeError(callback + ' is not a function');
+      }
+      thisArg = typeof thisArg === 'object' ? thisArg : this;
+      var array = [];
+      for (var i = 0, l = this.length; i !== l; ++i) {
+        if (callback.call(thisArg, this[i], i, this) === true) {
+          array = array.concat(this[i]);
+        }
+      }
+      return array;
+    };
+  }
 
 })();
