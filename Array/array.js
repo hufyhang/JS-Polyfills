@@ -174,4 +174,22 @@
     };
   }
 
+  // Array.prototype.slice([begin[, end]])
+  Array.prototype.slice = function slice (begin, end) {
+    if (this === null || this === undefined) {
+      throw TypeError('this is null or undefined');
+    }
+    begin = typeof begin === 'number' ? begin : 0;
+    end = typeof end === 'number' ? end : this.length;
+    if (end < 0) {
+      end = this.length + end;
+    }
+    var array = [];
+    for (var i = begin, l = end; i !== l; ++i) {
+      array = array.concat(this[i]);
+    }
+    return array;
+  };
+
+
 })();
