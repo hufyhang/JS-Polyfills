@@ -136,4 +136,23 @@
     };
   }
 
+  // Array.prototype.map(callback[, thisArg])
+  if (typeof Array.prototype.map !== 'function') {
+    Array.prototype.map = function map (callback, thisArg) {
+      if (this === null || this === undefined) {
+        throw TypeError('this is null or undefined');
+      }
+      if (typeof callback !== 'function') {
+        throw TypeError(callback + ' is not a function');
+      }
+      thisArg = typeof thisArg === 'object' ? thisArg : this;
+      var array = [];
+      for (var i = 0, l = this.length; i !== l; ++i) {
+        array = array.concat(callback.call(thisArg, this[i], i, this));
+      }
+      return array;
+    };
+  }
+
+
 })();
