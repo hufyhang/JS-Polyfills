@@ -60,6 +60,20 @@ if (typeof Object.getOwnPropertyNames !== 'function') {
     return res;
   };
 }
+// Object.keys(obj)
+// Follow ES6 spec. i.e. turn a non-object argument to an object.
+if (typeof Object.keys !== 'function') {
+  Object.keys = function keys (o) {
+    var res = [];
+    o = Object(o);
+    for (var k in o) {
+      if (Object.prototype.hasOwnProperty.call(o, k)) {
+        res = res.concat(k);
+      }
+    }
+    return res;
+  };
+}
 
 
 
