@@ -175,6 +175,7 @@
   }
 
   // Array.prototype.slice([begin[, end]])
+  // This is mainly to correct the slice funtion in IE.
   Array.prototype.slice = function slice (begin, end) {
     if (this === null || this === undefined) {
       throw TypeError('this is null or undefined');
@@ -191,5 +192,33 @@
     return array;
   };
 
+  // Array.prototype.reduce(callback[, initialValue])
+  if (typeof Array.prototype.reduce !== 'function') {
+    Array.prototype.reduce = function reduce(callback, initialValue) {
+      if (this === null || this === undefined) {
+        throw TypeError('this is null or undefined');
+      }
+      if (typeof callback !== 'function') {
+        throw TypeError(callback + ' is not a function');
+      }
+      var current, prev;
+      var i = 0, l = arguments.length;
+      if (l === 1) {
+        prev = this[0];
+        current = this[1];
+        i = 1;
+      }
+      else if (l > 1) {
+        prev = initialValue;
+        current = this[0];
+      }
+      l = this.length;
+      for (; i !== l; ++i) {
+        prev = callback(prev, current, i, this);
+        current = this[i + 1];
+      }
+      return prev;
+    };
+  }
 
 })();
