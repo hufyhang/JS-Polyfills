@@ -33,7 +33,7 @@ if (typeof Object.create !== 'function') {
       F.prototype = proto;
       var obj = new F();
       F.prototype = null; // Clear F.prototype
-      if (typeof propertiesObject === 'object' && propertiesObject !== null) {
+      if (typeof propertiesObject === 'object') {
         for (var prop in propertiesObject) {
           if (hasOwn.call(propertiesObject, prop)) {
             obj[prop] = propertiesObject[prop];
@@ -44,5 +44,23 @@ if (typeof Object.create !== 'function') {
     };
   } )();
 }
+
+// Object.getOwnPropertyNames(obj)
+if (typeof Object.getOwnPropertyNames !== 'function') {
+  Object.getOwnPropertyNames = function getOwnPropertyNames (o) {
+    if (typeof o !== 'object') {
+      throw TypeError(o + ' is not an object');
+    }
+    var res = [];
+    for (var k in o) {
+      if (Object.prototype.hasOwnProperty.call(o, k)) {
+        res = res.concat(k);
+      }
+    }
+    return res;
+  };
+}
+
+
 
 } )();
