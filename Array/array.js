@@ -221,4 +221,31 @@
     };
   }
 
+  // Array.prototype.reduceRight(callback[, initialValue])
+  if (typeof Array.prototype.reduceRight !== 'function') {
+    Array.prototype.reduceRight = function reduceRight(callback, initialValue) {
+      if (this === null || this === undefined) {
+        throw TypeError('this is null or undefined');
+      }
+      if (typeof callback !== 'function') {
+        throw TypeError(callback + ' is not a function');
+      }
+      var current, prev;
+      var i = this.length - 1, l = arguments.length;
+      if (l === 1) {
+        prev = this[i];
+        current = this[--i];
+      }
+      else if (l > 1) {
+        prev = initialValue;
+        current = this[i];
+      }
+      for (; i !== -1; --i) {
+        prev = callback(prev, current, i, this);
+        current = this[i - 1];
+      }
+      return prev;
+    };
+  }
+
 })();
