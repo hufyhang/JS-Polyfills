@@ -81,4 +81,23 @@
       return -1;
     };
   }
+
+  // Array.prototype.every(callback[, thisArg])
+  if (typeof Array.prototype.every !== 'function') {
+    Array.prototype.every = function every(callback, thisArg) {
+      if (this === null || this === undefined) {
+        throw TypeError(this + ' is null or undefined');
+      }
+      if (typeof callback !== 'function') {
+        throw TypeError(callback + ' is not a function');
+      }
+      thisArg = typeof thisArg === 'object' ? thisArg : this;
+      for (var i = 0, l = this.length; i !== l; ++i) {
+        if (callback.call(thisArg, this[i], i, this) === false) {
+          return false;
+        }
+      }
+      return true;
+    };
+  }
 })();
