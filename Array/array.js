@@ -100,4 +100,23 @@
       return true;
     };
   }
+
+  // Array.prototype.some(callback[, thisArg])
+  if (typeof Array.prototype.some !== 'function') {
+    Array.prototype.some = function some(callback, thisArg) {
+      if (this === null || this === undefined) {
+        throw TypeError(this + ' is null or undefined');
+      }
+      if (typeof callback !== 'function') {
+        throw TypeError(callback + ' is not a function');
+      }
+      thisArg = typeof thisArg === 'object' ? thisArg : this;
+      for (var i = 0, l = this.length; i !== l; ++i) {
+        if (callback.call(thisArg, this[i], i, this) === true) {
+          return true;
+        }
+      }
+      return false;
+    };
+  }
 })();
