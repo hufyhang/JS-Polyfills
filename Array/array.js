@@ -86,7 +86,7 @@
   if (typeof Array.prototype.every !== 'function') {
     Array.prototype.every = function every(callback, thisArg) {
       if (this === null || this === undefined) {
-        throw TypeError(this + ' is null or undefined');
+        throw TypeError('this is null or undefined');
       }
       if (typeof callback !== 'function') {
         throw TypeError(callback + ' is not a function');
@@ -105,7 +105,7 @@
   if (typeof Array.prototype.some !== 'function') {
     Array.prototype.some = function some(callback, thisArg) {
       if (this === null || this === undefined) {
-        throw TypeError(this + ' is null or undefined');
+        throw TypeError('this is null or undefined');
       }
       if (typeof callback !== 'function') {
         throw TypeError(callback + ' is not a function');
@@ -119,4 +119,21 @@
       return false;
     };
   }
+
+  // Array.prototype.forEach(callback[, thisArg])
+  if (typeof Array.prototype.forEach !== 'function') {
+    Array.prototype.forEach = function forEach (callback, thisArg) {
+      if (this === null || this === undefined) {
+        throw TypeError('this is null or undefined');
+      }
+      if (typeof callback !== 'function') {
+        throw TypeError(callback + ' is not a function');
+      }
+      thisArg = typeof thisArg === 'object' ? thisArg : this;
+      for (var i = 0, l = this.length; i !== l; ++i) {
+        callback.call(thisArg, this[i], i, this);
+      }
+    };
+  }
+
 })();
